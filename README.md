@@ -10,23 +10,7 @@
 every time you git commit code, and archives a lolcat style image with it. Git
 blame has never been so much fun!
 
-This plugin annotates each lolcommit with the commit message and sha text. You
-can style and position these however you like, or add a transparent overlay
-color that covers the entire image.
-
-By default your lolcommit will look something like this (maybe without the
-horse):
-
-![horse
-commit](https://github.com/lolcommits/lolcommits-lolsrv/raw/master/assets/images/horse.jpg)
-
-You can easily change the plugin options to achieve something like this:
-
-![hipster
-commit](https://github.com/lolcommits/lolcommits-lolsrv/raw/master/assets/images/hipster.jpg)
-
-See [below](https://github.com/lolcommits/lolcommits-lolsrv#configuration) for
-more information on the options available.
+This plugin  ...
 
 ## Requirements
 
@@ -37,73 +21,21 @@ more information on the options available.
 
 ## Installation
 
-By default, this plugin is automatically included with the main lolcommits gem.
-If you have uninstalled this gem, install it again with:
+After installing the lolcommits gem, install this plugin with:
 
     $ gem install lolcommits-lolsrv
 
-That's it! Every lolcommit will now be stamped with your commit message and sha.
-This plugin is enabled by default (if no configuration for it exists). To
-disable (so no text or overlay is applied) use:
+The configure the plugin to enable it and set the server url
+
+    $ lolcommits --config -p lolsrv
+    # set enabled to `true`
+    # set the server base url
+
+That's it! Provided the endpoints are responding correctly, your lolcommits will
+now be synced to the remote server. To disable this plugin use:
 
     $ lolcommits --config -p lolsrv
     # and set enabled to `false`
-
-### Configuration
-
-Configure this plugin with:
-
-    $ lolcommits --config -p lolsrv
-    # set enabled to `true` (then set your own options or choose the defaults)
-
-The following options are available:
-
-* text color
-* text font
-* text position
-* uppercase text?
-* size (point size for the font)
-* stroke color (font outline color, or none)
-* transparent overlay (cover the image with a random background color)
-* transparent overlay % (sets the fill colorize strength)
-
-Please note that:
-
-* The message and sha text can have different text options
-* Any blank options will use the default (indicated when prompted for an option)
-* Always use the full absolute path to font files
-* Valid text positions are NE, NW, SE, SW, S, C (centered)
-* Colors can be hex values (#FC0) or strings (white, red etc.)
-* You can set one or more `overlay_colors` to pick from, separated with commas
-
-With these options it is possible to create your own unique lolcommit format.
-To achieve these '[hipster
-styled](https://twitter.com/matthutchin/status/738411190343368704)' 🕶 commits,
-try the following:
-
-```
-lolsrv:
-  enabled: true
-  :message:
-    :color: white
-    :font: "/Users/matt/Library/Fonts/Raleway-Light.ttf"
-    :position: C
-    :size: 30
-    :stroke_color: none
-    :uppercase: true
-  :sha:
-    :color: white
-    :font: "/Users/matt/Library/Fonts/Raleway-Light.ttf"
-    :position: S
-    :size: 20
-    :stroke_color: none
-    :uppercase: false
-  :overlay:
-    :enabled: true
-```
-
-**NOTE**: you can grab the '_Raleway-Light_' font for free from
-[fontsquirrel](https://www.fontsquirrel.com/fonts/Raleway).
 
 ## Development
 
