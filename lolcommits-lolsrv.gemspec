@@ -8,11 +8,12 @@ Gem::Specification.new do |spec|
   spec.version       = Lolcommits::Lolsrv::VERSION
   spec.authors       = ["Matthew Hutchinson"]
   spec.email         = ["matt@hiddenloop.com"]
-  spec.summary       = %q{lolcommits commit message annotation plugin}
+  spec.summary       = %q{Sync lolcommits to a remote server}
 
   spec.description = <<-EOF
-  Overlay the commit message and sha on your lolcommit. Configure text style,
-  positioning and an optional transparent overlay.
+  Sync lolcommits to a remote server. After enabling, your next lolcommit will
+  be uploaded, along with all existing lolcommits images that you've already
+  captured. Each lolcommit is then sync'd after capturing.
   EOF
 
   spec.homepage      = "https://github.com/lolcommits/lolcommits-lolsrv"
@@ -35,7 +36,7 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = ">= 2.0.0"
 
-  # spec.add_development_dependency "lolcommits", ">= 0.9.6" # TODO: change to 0.9.7 on release
+  spec.add_development_dependency "lolcommits", ">= 0.9.6" # TODO: change to 0.9.7 on release
   spec.add_development_dependency "bundler"
   spec.add_development_dependency "webmock"
   spec.add_development_dependency "pry"
