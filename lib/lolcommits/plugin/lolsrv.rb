@@ -98,7 +98,7 @@ module Lolcommits
 
         if existing.nil?
           # abort sync when invalid response or error from lols_endpoint
-          debug "aborting sync, /lols failed to return a valid JSON response"
+          debug "aborting sync, #{lols_endpoint} failed to return a valid JSON response"
           return
         end
 
@@ -135,7 +135,7 @@ module Lolcommits
       def upload(image, sha)
         RestClient.post(upload_endpoint, upload_params_for(sha))
       rescue SocketError, RestClient::RequestFailed => e
-        log_error(e, "ERROR: Upload of lol #{sha} FAILED #{e.class} - #{e.message}")
+        log_error(e, "ERROR: Upload of lol #{sha} to #{upload_endpoint} FAILED #{e.class} - #{e.message}")
         return nil
       end
 

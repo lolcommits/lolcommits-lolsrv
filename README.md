@@ -10,7 +10,29 @@
 every time you git commit code, and archives a lolcat style image with it. Git
 blame has never been so much fun!
 
-This plugin  ...
+This plugin syncs lolcommits to a remote server. After enabling, your next
+lolcommit will be uploaded, along with all existing lolcommits images that
+you've already captured. This sync is then performed after each commit, only
+uploading images that have not already been synced.
+
+You configure the plugin setting the base url of the remote server. This server
+must respond to the following requests.
+
+**POST /uplol**
+
+The following params are submitted as `multipart/form-data`.
+
+* `lol`  - captured lolcommit image file
+* `url`  - remote repository URL (with commit SHA appended)
+* `repo` - repository name e.g. mroth/lolcommits
+* `date` - UTC date time for the commit (ISO8601)
+* `sha`  - commit SHA
+
+**GET /lols**
+
+Must return a JSON array of all lols already uploaded. The commit `sha` is the
+only required JSON attribute and is used to identify the already synced
+lolcommit.
 
 ## Requirements
 
@@ -25,14 +47,14 @@ After installing the lolcommits gem, install this plugin with:
 
     $ gem install lolcommits-lolsrv
 
-The configure the plugin to enable it and set the server url
+Then configure the plugin to enable it and set the server url with:
 
     $ lolcommits --config -p lolsrv
     # set enabled to `true`
-    # set the server base url
+    # set the server base url (must begin with http(s)://)
 
-That's it! Provided the endpoints are responding correctly, your lolcommits will
-now be synced to the remote server. To disable this plugin use:
+That's it! Provided the endpoints are responding correctly, lolcommits will
+now be synced to the remote server. To disable use:
 
     $ lolcommits --config -p lolsrv
     # and set enabled to `false`
