@@ -21,7 +21,6 @@ end
 
 # plugin gem test libs
 require 'lolcommits/lolsrv'
-require 'webmock/minitest'
 require 'minitest/autorun'
 
 # swallow all debug output during test runs

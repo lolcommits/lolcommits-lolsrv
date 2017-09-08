@@ -1,4 +1,5 @@
 require "test_helper"
+require 'webmock/minitest'
 
 describe Lolcommits::Plugin::Lolsrv do
 
@@ -44,33 +45,29 @@ describe Lolcommits::Plugin::Lolsrv do
       )
     end
 
-    before { commit_repo_with_message }
-    after { teardown_repo }
-
     describe "initalizing" do
-      it "should assign runner and an enabled option" do
-        in_repo do
-          plugin.runner.must_equal runner
-          plugin.options.must_equal ["enabled"]
-        end
+      it "assigns runner and an enabled option" do
+        plugin.runner.must_equal runner
+        plugin.options.must_equal ["enabled"]
       end
     end
 
     describe "#enabled?" do
-      it "should be false by default" do
-        in_repo { plugin.enabled?.must_equal false }
+      it "is false by default" do
+        plugin.enabled?.must_equal false
       end
 
-      it "should true when configured" do
-        in_repo do
-          plugin.config = valid_enabled_config
-          plugin.enabled?.must_equal true
-        end
+      it "is true when configured" do
+        plugin.config = valid_enabled_config
+        plugin.enabled?.must_equal true
       end
     end
 
     describe "run_capture_ready" do
-      it "should sync lolcommits" do
+      before { commit_repo_with_message }
+      after { teardown_repo }
+
+      it "syncs lolcommits" do
         in_repo do
           plugin.config = valid_enabled_config
           existing_sha  = "sha123"
@@ -84,37 +81,32 @@ describe Lolcommits::Plugin::Lolsrv do
 
           assert_requested :get, "https://lolsrv.com/lols", times: 1
           assert_requested :post, "https://lolsrv.com/uplol", times: 1,
-            headers: {'Content-Type' => /multipart\/form-data/} do |req|
-            req.body.must_match /sha456/
-            req.body.must_match /plugin-test-repo/
-            req.body.must_match %r{name=\"lol\"; filename=}
+            headers: {'Content-Type' => /multipart\/form-data/ } do |req|
+            req.body.must_match "sha456"
+            req.body.must_match "plugin-test-repo"
+            req.body.must_match "name=\"lol\"; filename="
           end
         end
       end
     end
 
     describe "configuration" do
-      it "should not be configured by default" do
-        in_repo { plugin.configured?.must_equal false }
+      it "returns false when configured by default" do
+        plugin.configured?.must_equal false
       end
 
-      it "should indicate when configured" do
-        in_repo do
-          plugin.config = valid_enabled_config
-          plugin.configured?.must_equal true
-        end
+      it "returns true when configured" do
+        plugin.config = valid_enabled_config
+        plugin.configured?.must_equal true
       end
 
-      it "should allow plugin options to be configured" do
+      it "allows plugin options to be configured" do
         # enabled and server option
         inputs = ["true", "https://my-lolsrv.com"]
-
         configured_plugin_options = {}
 
-        in_repo do
-          fake_io_capture(inputs: inputs) do
-            configured_plugin_options = plugin.configure_options!
-          end
+        fake_io_capture(inputs: inputs) do
+          configured_plugin_options = plugin.configure_options!
         end
 
         configured_plugin_options.must_equal({
@@ -124,20 +116,16 @@ describe Lolcommits::Plugin::Lolsrv do
       end
 
       describe "#valid_configuration?" do
-        it "should be false for an invalid configuration" do
-          in_repo do
-            plugin.config = OpenStruct.new(read_configuration: {
-              "lolsrv" => { server: "gibberish" }
-            })
-            plugin.valid_configuration?.must_equal false
-          end
+        it "returns false for an invalid configuration" do
+          plugin.config = OpenStruct.new(read_configuration: {
+            "lolsrv" => { server: "gibberish" }
+          })
+          plugin.valid_configuration?.must_equal false
         end
 
-        it "should be true for a valid configuration" do
-          in_repo do
-            plugin.config = valid_enabled_config
-            plugin.valid_configuration?.must_equal true
-          end
+        it "returns true with a valid configuration" do
+          plugin.config = valid_enabled_config
+          plugin.valid_configuration?.must_equal true
         end
       end
     end
