@@ -153,16 +153,17 @@ module Lolcommits
       # @return [Hash]
       #
       def upload_params_for(image, sha)
+        # TODO: uncomment lines below
         params = {
           lol: File.new(image),
           repo: runner.vcs_info.repo,
-          date: runner.vcs_info.commit_date.iso8601,
+          # date: runner.vcs_info.commit_date.iso8601,
           sha: sha
         }
 
-        if runner.vcs_info.url
-          params.merge!(url: runner.vcs_info.url + sha)
-        end
+        # if runner.vcs_info.url
+        #   params.merge!(url: runner.vcs_info.url + sha)
+        # end
 
         params
       end
