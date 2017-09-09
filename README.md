@@ -2,7 +2,7 @@
 
 [![Gem Version](https://img.shields.io/gem/v/lolcommits-lolsrv.svg?style=flat)](http://rubygems.org/gems/lolcommits-lolsrv)
 [![Travis Build Status](https://travis-ci.org/lolcommits/lolcommits-lolsrv.svg?branch=master)](https://travis-ci.org/lolcommits/lolcommits-lolsrv)
-[![Coverage Status](https://coveralls.io/repos/github/lolcommits/lolcommits-lolsrv/badge.svg?branch=master)](https://coveralls.io/github/lolcommits/lolcommits-lolsrv)
+[![Test Coverage](https://codeclimate.com/github/lolcommits/lolcommits-lolsrv/badges/coverage.svg)](https://codeclimate.com/github/lolcommits/lolcommits-lolsrv/coverage)
 [![Code Climate](https://codeclimate.com/github/lolcommits/lolcommits-lolsrv/badges/gpa.svg)](https://codeclimate.com/github/lolcommits/lolcommits-lolsrv)
 [![Gem Dependency Status](https://gemnasium.com/badges/github.com/lolcommits/lolcommits-lolsrv.svg)](https://gemnasium.com/github.com/lolcommits/lolcommits-lolsrv)
 
