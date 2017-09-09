@@ -15,8 +15,8 @@ lolcommit will be uploaded, along with all existing lolcommits images that
 you've already captured. Syncing is then performed after each commit, only
 uploading images that have not already been synced.
 
-You configure the plugin by setting the base url of the remote server. To sync
-lolcommits the server must respond to these requests.
+You configure the plugin by setting the base url of the remote server. The
+server must respond to these requests.
 
 **POST /uplol**
 
@@ -52,8 +52,8 @@ Then configure to enable it and set the server url:
     # set enabled to `true`
     # set the server base url (must begin with http(s)://)
 
-That's it! Provided the endpoints are responding correctly, lolcommits will
-now be synced to the remote server. To disable use:
+That's it! Provided the endpoints are responding correctly, your lolcommits will
+be synced to the remote server. To disable use:
 
     $ lolcommits --config -p lolsrv
     # and set enabled to `false`
