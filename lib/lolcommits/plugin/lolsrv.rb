@@ -133,7 +133,7 @@ module Lolcommits
       # @return [RestClient::Response] response object from POST request
       #
       def upload(image, sha)
-        RestClient.post(upload_endpoint, upload_params_for(sha))
+        RestClient.post(upload_endpoint, upload_params_for(image, sha))
       rescue SocketError, RestClient::RequestFailed => e
         log_error(e, "ERROR: Upload of lol #{sha} to #{upload_endpoint} FAILED #{e.class} - #{e.message}")
         return nil
@@ -152,9 +152,10 @@ module Lolcommits
       #
       # @return [Hash]
       #
-      def upload_params_for(sha)
+      def upload_params_for(image, sha)
+        require 'pry'; binding.pry
         params = {
-          lol: File.new(runner.main_image),
+          lol: image,
           repo: runner.vcs_info.repo,
           date: runner.vcs_info.commit_date.iso8601,
           sha: sha
