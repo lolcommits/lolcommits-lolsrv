@@ -112,8 +112,8 @@ The gem is available as open source under the terms of
 ## Links
 
 * [Travis CI](https://travis-ci.org/lolcommits/lolcommits-lolsrv)
-* [Test Coverage](https://coveralls.io/github/lolcommits/lolcommits-lolsrv)
 * [Code Climate](https://codeclimate.com/github/lolcommits/lolcommits-lolsrv)
+* [Test Coverage](https://codeclimate.com/github/lolcommits/lolcommits-lolsrv/coverage)
 * [RDoc](http://rdoc.info/projects/lolcommits/lolcommits-lolsrv)
 * [Issues](http://github.com/lolcommits/lolcommits-lolsrv/issues)
 * [Report a bug](http://github.com/lolcommits/lolcommits-lolsrv/issues/new)
