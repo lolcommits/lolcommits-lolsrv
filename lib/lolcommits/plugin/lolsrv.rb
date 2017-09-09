@@ -153,9 +153,8 @@ module Lolcommits
       # @return [Hash]
       #
       def upload_params_for(image, sha)
-        require 'pry'; binding.pry
         params = {
-          lol: image,
+          lol: File.new(image),
           repo: runner.vcs_info.repo,
           date: runner.vcs_info.commit_date.iso8601,
           sha: sha
