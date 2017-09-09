@@ -33,7 +33,7 @@ module Lolcommits
       # configured
       #
       def valid_configuration?
-        configuration[:server].match?(/^http(s)?:\/\//)
+        !!(configuration[:server] =~ /^http(s)?:\/\//)
       end
 
       ##

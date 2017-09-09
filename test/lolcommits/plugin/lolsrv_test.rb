@@ -22,7 +22,7 @@ describe Lolcommits::Plugin::Lolsrv do
     def runner
       # a simple lolcommits runner with an empty configuration Hash
       @runner ||= Lolcommits::Runner.new(
-        main_image: Tempfile.new,
+        main_image: Tempfile.new('main_image.jpg'),
         config: OpenStruct.new(
           read_configuration: {},
           loldir: File.expand_path("#{__dir__}../../../images")
