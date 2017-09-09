@@ -15,12 +15,12 @@ lolcommit will be uploaded, along with all existing lolcommits images that
 you've already captured. This sync is then performed after each commit, only
 uploading images that have not already been synced.
 
-You configure the plugin setting the base url of the remote server. This server
-must respond to the following requests.
+You configure the plugin by setting the base url of the remote server. To sync
+lolcommits the server must respond to these requests.
 
 **POST /uplol**
 
-The following params are submitted as `multipart/form-data`.
+These params are submitted as `multipart/form-data`.
 
 * `lol`  - captured lolcommit image file
 * `url`  - remote repository URL (with commit SHA appended)
@@ -30,9 +30,8 @@ The following params are submitted as `multipart/form-data`.
 
 **GET /lols**
 
-Must return a JSON array of all lols already uploaded. The commit `sha` is the
-only required JSON attribute and is used to identify the already synced
-lolcommit.
+Should return a JSON array of all lolcommits already synced. The commit `sha` is the
+only required JSON attribute (used to identify the already synced image).
 
 ## Requirements
 
@@ -47,7 +46,7 @@ After installing the lolcommits gem, install this plugin with:
 
     $ gem install lolcommits-lolsrv
 
-Then configure the plugin to enable it and set the server url with:
+Then configure to enable it and set the server url:
 
     $ lolcommits --config -p lolsrv
     # set enabled to `true`
@@ -61,7 +60,7 @@ now be synced to the remote server. To disable use:
 
 ## Development
 
-Check out this repo and run `bin/setup`, to install all dependencies and
+Check out this repo and run `bin/setup`, this will install all dependencies and
 generate docs. Run `bundle exec rake` to run all tests and generate a coverage
 report.
 
