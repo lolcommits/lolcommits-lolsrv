@@ -12,7 +12,7 @@ blame has never been so much fun!
 
 This plugin syncs lolcommits to a remote server. After enabling, your next
 lolcommit will be uploaded, along with all existing lolcommits images that
-you've already captured. This sync is then performed after each commit, only
+you've already captured. Syncing is then performed after each commit, only
 uploading images that have not already been synced.
 
 You configure the plugin by setting the base url of the remote server. To sync
