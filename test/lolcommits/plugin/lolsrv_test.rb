@@ -39,7 +39,7 @@ describe Lolcommits::Plugin::Lolsrv do
         read_configuration: {
           "lolsrv" => {
             "enabled" => true,
-            server: "https://lolsrv.com"
+            "server" => "https://lolsrv.com"
           }
         }
       )
@@ -111,14 +111,14 @@ describe Lolcommits::Plugin::Lolsrv do
 
         configured_plugin_options.must_equal({
           "enabled" => true,
-          server: "https://my-lolsrv.com"
+          "server" => "https://my-lolsrv.com"
         })
       end
 
       describe "#valid_configuration?" do
         it "returns false for an invalid configuration" do
           plugin.config = OpenStruct.new(read_configuration: {
-            "lolsrv" => { server: "gibberish" }
+            "lolsrv" => { "server" => "gibberish" }
           })
           plugin.valid_configuration?.must_equal false
         end

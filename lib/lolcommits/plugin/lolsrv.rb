@@ -33,7 +33,7 @@ module Lolcommits
       # configured
       #
       def valid_configuration?
-        !!(configuration[:server] =~ /^http(s)?:\/\//)
+        !!(configuration['server'] =~ /^http(s)?:\/\//)
       end
 
       ##
@@ -45,7 +45,7 @@ module Lolcommits
         options = super
         if options['enabled']
           print "server: "
-          options.merge!(server: parse_user_input(gets.strip))
+          options.merge!('server' => parse_user_input(gets.strip))
           puts '---------------------------------------------------------------'
           puts '  Lolsrv - Sync and upload lolcommits to a remote Server'
           puts ''
@@ -175,7 +175,7 @@ module Lolcommits
       # @return [String] `server` config option + '/uplol'
       #
       def upload_endpoint
-        configuration[:server] + '/uplol'
+        configuration['server'] + '/uplol'
       end
 
       ##
@@ -187,7 +187,7 @@ module Lolcommits
       # @return [String] `server` config option + '/lols'
       #
       def lols_endpoint
-        configuration[:server] + '/lols'
+        configuration['server'] + '/lols'
       end
     end
   end
