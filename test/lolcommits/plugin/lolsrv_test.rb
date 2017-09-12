@@ -14,7 +14,7 @@ describe Lolcommits::Plugin::Lolsrv do
     ::Lolcommits::Plugin::Lolsrv.name.must_equal plugin_name
   end
 
-  it "should run on post capturing" do
+  it "should run on capture ready" do
     ::Lolcommits::Plugin::Lolsrv.runner_order.must_equal [:capture_ready]
   end
 
@@ -91,7 +91,7 @@ describe Lolcommits::Plugin::Lolsrv do
     end
 
     describe "configuration" do
-      it "returns false when configured by default" do
+      it "returns false when not configured" do
         plugin.configured?.must_equal false
       end
 
