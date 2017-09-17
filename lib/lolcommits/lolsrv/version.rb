@@ -1,5 +1,5 @@
 module Lolcommits
   module Lolsrv
-    VERSION = "0.0.5".freeze
+    VERSION = "0.0.1".freeze
   end
 end
