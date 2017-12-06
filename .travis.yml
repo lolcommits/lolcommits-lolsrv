@@ -19,10 +19,6 @@ matrix:
   allow_failures:
     - rvm: ruby-head
 
-branches:
-  except:
-    - gh-pages
-
 env:
   global:
     - CC_TEST_REPORTER_ID=bd4ff902b7510abdab3aacd57ceb51a5b2e054fed4100019fcd21e2324a69090
