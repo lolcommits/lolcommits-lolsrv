@@ -47,7 +47,7 @@ module Lolcommits
           print "server: "
           options.merge!('server' => parse_user_input(gets.strip))
           puts '---------------------------------------------------------------'
-          puts '  Lolsrv - Sync and upload lolcommits to a remote Server'
+          puts '  Lolsrv - Upload and sync lolcommits to a remote server'
           puts ''
           puts '  Handle POST /uplol with these request params'
           puts ''
@@ -83,6 +83,15 @@ module Lolcommits
       private
 
       ##
+      # Message to show if syncing fails
+      #
+      # @return [String] message text
+      #
+      def fail_message
+        "failed :( (try again with --debug)\n"
+      end
+
+      ##
       #
       # Syncs lolcommmit images to the remote server
       #
@@ -94,18 +103,23 @@ module Lolcommits
       # Upload requests that fail are skipped.
       #
       def sync
+        print "Syncing with lolsrv ... "
         existing = existing_lols
 
-        if existing.nil?
-          # abort sync when invalid response or error from lols_endpoint
-          debug "aborting sync, #{lols_endpoint} failed to return a valid JSON response"
-          return
+        # abort sync when invalid response or error from lols_endpoint
+        unless existing
+          print fail_message; return
         end
 
         Dir[runner.config.loldir + '/*.{jpg,gif}'].each do |image|
           sha = File.basename(image, '.*')
-          upload(image, sha) unless existing.include?(sha) || sha == 'tmp_snapshot'
+          response = upload(image, sha) unless existing.include?(sha) || sha == 'tmp_snapshot'
+          unless response
+            print fail_message; return
+          end
         end
+
+        print "done!\n"
       end
 
       ##

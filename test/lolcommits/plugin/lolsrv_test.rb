@@ -77,7 +77,7 @@ describe Lolcommits::Plugin::Lolsrv do
 
           stub_request(:post, "https://lolsrv.com/uplol").to_return(status: 200)
 
-          plugin.run_capture_ready(do_fork: false)
+          fake_io_capture { plugin.run_capture_ready(do_fork: false) }
 
           assert_requested :get, "https://lolsrv.com/lols", times: 1
           assert_requested :post, "https://lolsrv.com/uplol", times: 1,
