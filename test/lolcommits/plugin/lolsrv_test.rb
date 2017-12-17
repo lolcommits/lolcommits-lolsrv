@@ -64,7 +64,10 @@ describe Lolcommits::Plugin::Lolsrv do
     end
 
     describe "run_capture_ready" do
-      before { commit_repo_with_message }
+      before do
+        commit_repo_with_message
+      end
+
       after { teardown_repo }
 
       it "syncs lolcommits" do
@@ -77,8 +80,11 @@ describe Lolcommits::Plugin::Lolsrv do
 
           stub_request(:post, "https://lolsrv.com/uplol").to_return(status: 200)
 
-          fake_io_capture { plugin.run_capture_ready(do_fork: false) }
+          output = fake_io_capture do
+            plugin.run_capture_ready(do_fork: false)
+          end
 
+          assert_equal output, "Syncing lols ... done!\n"
           assert_requested :get, "https://lolsrv.com/lols", times: 1
           assert_requested :post, "https://lolsrv.com/uplol", times: 1,
             headers: {'Content-Type' => /multipart\/form-data/ } do |req|
@@ -86,6 +92,20 @@ describe Lolcommits::Plugin::Lolsrv do
             req.body.must_match "plugin-test-repo"
             req.body.must_match "name=\"lol\"; filename="
           end
+        end
+      end
+
+      it "shows error and aborts on failed lols endpoint" do
+        in_repo do
+          plugin.config = valid_enabled_config
+          stub_request(:get, "https://lolsrv.com/lols").to_return(status: 404)
+
+          output = fake_io_capture do
+            plugin.run_capture_ready(do_fork: false)
+          end
+
+          assert_equal output, "Syncing lols ... failed fetching existing lols (try again with --debug)\n"
+          assert_not_requested :post, "https://lolsrv.com/uplol"
         end
       end
     end

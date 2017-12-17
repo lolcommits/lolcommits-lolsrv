@@ -47,7 +47,7 @@ module Lolcommits
           print "server: "
           options.merge!('server' => parse_user_input(gets.strip))
           puts '---------------------------------------------------------------'
-          puts '  Lolsrv - Upload and sync lolcommits to a remote server'
+          puts '  Lolsrv - Sync lolcommits to a remote server'
           puts ''
           puts '  Handle POST /uplol with these request params'
           puts ''
@@ -83,66 +83,55 @@ module Lolcommits
       private
 
       ##
-      # Message to show if syncing fails
-      #
-      # @return [String] message text
-      #
-      def fail_message
-        "failed :( (try again with --debug)\n"
-      end
-
-      ##
       #
       # Syncs lolcommmit images to the remote server
       #
-      # Fetches from /lols and iterates over objects in the JSON array
-      # For each image found in the local loldir folder, check if it has already
-      # been uploaded. If not upload the image with a POST request and
+      # Fetches from /lols and iterates over shas in the JSON array. Then for
+      # each image found in the local loldir folder, check if it has already
+      # been uploaded. If not, upload the image with a POST request and
       # upload_params.
       #
-      # Upload requests that fail are skipped.
+      # Upload requests that fail abort the sync
       #
       def sync
-        print "Syncing with lolsrv ... "
-        existing = existing_lols
-
-        # abort sync when invalid response or error from lols_endpoint
-        unless existing
-          print fail_message; return
-        end
+        print "Syncing lols ... "
+        raise 'failed fetching existing lols' unless existing_shas
 
         Dir[runner.config.loldir + '/*.{jpg,gif}'].each do |image|
           sha = File.basename(image, '.*')
-          response = upload(image, sha) unless existing.include?(sha) || sha == 'tmp_snapshot'
-          unless response
-            print fail_message; return
+          unless existing_shas.include?(sha) || sha == 'tmp_snapshot'
+            response = upload(image, sha)
+            raise "failed uploading #{image}" if response.nil?
           end
         end
 
         print "done!\n"
+      rescue RuntimeError => e
+        print "#{e.message} (try again with --debug)\n"
       end
 
       ##
       #
       # Fetch and parse JSON response from `server/lols`, returning an array of
-      # commit SHA's. Logs error and returns nil on NET/HTTP and JSON parsing
-      # errors.
+      # commit SHA's. Logs and returns nil on NET/HTTP and JSON parsing errors.
       #
       # @return [Array] containing commit SHA's
       # @return [Nil] if an error occurred
       #
-      def existing_lols
-        lols = JSON.parse(RestClient.get(lols_endpoint))
-        lols.map { |lol| lol['sha'] }
-      rescue JSON::ParserError, SocketError, RestClient::RequestFailed => e
-        log_error(e, "ERROR: existing lols could not be retrieved #{e.class} - #{e.message}")
-        return nil
+      def existing_shas
+        @existing_shas ||= begin
+          lols = JSON.parse(RestClient.get(lols_endpoint))
+          lols.map { |lol| lol['sha'] }
+        rescue JSON::ParserError, SocketError, RestClient::RequestFailed => e
+          log_error(e, "ERROR: existing lols could not be retrieved #{e.class} - #{e.message}")
+          return nil
+        end
       end
 
       ##
       #
       # Upload the lolcommit image to `server/uplol` with commit params. Logs
-      # error and returns nil on NET/HTTP errors.
+      # and returns nil on NET/HTTP errors.
       #
       # @return [RestClient::Response] response object from POST request
       #
