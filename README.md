@@ -16,22 +16,22 @@ you've already captured. Syncing is then performed after each commit, only
 uploading images that have not already been synced.
 
 You configure the plugin by setting the base url of the remote server. The
-server must respond to these requests.
+server must respond at these paths:
+
+**GET /lols**
+
+Returns a JSON array of all lolcommits already synced. The commit `sha` is the
+only required JSON attribute (used to identify the already synced image).
 
 **POST /uplol**
 
-These params are submitted as `multipart/form-data`.
+The following upload params are `multipart/form-data` encoded:
 
 * `lol`  - captured lolcommit image file
 * `url`  - remote repository URL (with commit SHA appended)
 * `repo` - repository name e.g. mroth/lolcommits
 * `date` - UTC date time for the commit (ISO8601)
 * `sha`  - commit SHA
-
-**GET /lols**
-
-Should return a JSON array of all lolcommits already synced. The commit `sha` is the
-only required JSON attribute (used to identify the already synced image).
 
 ## Requirements
 
