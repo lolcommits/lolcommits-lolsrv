@@ -71,12 +71,17 @@ module Lolcommits
       #
       # Post-capture hook, runs after lolcommits captures a snapshot.
       #
-      # Syncs lolcommit images to the remote server (forked)
+      # Syncs lolcommit images to the remote server (forked and detached)
       #
       # @return [Integer] forked process id
       #
       def run_capture_ready(do_fork: true)
-        do_fork ? fork { sync } : sync
+        if do_fork
+          pid = fork { sync }
+          Process.detach(pid)
+        else
+          sync
+        end
       end
 
 
@@ -86,12 +91,12 @@ module Lolcommits
       #
       # Syncs lolcommmit images to the remote server
       #
-      # Fetches from /lols and iterates over shas in the JSON array. Then for
-      # each image found in the local loldir folder, check if it has already
-      # been uploaded. If not, upload the image with a POST request and
+      # Fetches from /lols and iterates over shas in the JSON array. For each
+      # image found in the local loldir folder, check if it has already been
+      # uploaded. If not, upload the image with a POST request and
       # upload_params.
       #
-      # Upload requests that fail abort the sync
+      # Upload requests that fail abort the sync.
       #
       def sync
         print "Syncing lols ... "
@@ -106,8 +111,9 @@ module Lolcommits
         end
 
         print "done!\n"
-      rescue RuntimeError => e
+      rescue StandardError => e
         print "#{e.message} (try again with --debug)\n"
+        nil
       end
 
       ##
@@ -124,7 +130,7 @@ module Lolcommits
           lols.map { |lol| lol['sha'] }
         rescue JSON::ParserError, SocketError, RestClient::RequestFailed => e
           log_error(e, "ERROR: existing lols could not be retrieved #{e.class} - #{e.message}")
-          return nil
+          nil
         end
       end
 
@@ -139,7 +145,7 @@ module Lolcommits
         RestClient.post(upload_endpoint, upload_params_for(image, sha))
       rescue SocketError, RestClient::RequestFailed => e
         log_error(e, "ERROR: Upload of lol #{sha} to #{upload_endpoint} FAILED #{e.class} - #{e.message}")
-        return nil
+        nil
       end
 
       ##
