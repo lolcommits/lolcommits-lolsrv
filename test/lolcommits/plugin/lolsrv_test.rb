@@ -6,14 +6,6 @@ describe Lolcommits::Plugin::Lolsrv do
   include Lolcommits::TestHelpers::GitRepo
   include Lolcommits::TestHelpers::FakeIO
 
-  def plugin_name
-    "lolsrv"
-  end
-
-  it "should have a name" do
-    ::Lolcommits::Plugin::Lolsrv.name.must_equal plugin_name
-  end
-
   it "should run on capture ready" do
     ::Lolcommits::Plugin::Lolsrv.runner_order.must_equal [:capture_ready]
   end
@@ -24,7 +16,6 @@ describe Lolcommits::Plugin::Lolsrv do
       @runner ||= Lolcommits::Runner.new(
         main_image: Tempfile.new('main_image.jpg'),
         config: OpenStruct.new(
-          read_configuration: {},
           loldir: File.expand_path("#{__dir__}../../../images")
         )
       )
@@ -35,30 +26,19 @@ describe Lolcommits::Plugin::Lolsrv do
     end
 
     def valid_enabled_config
-      @config ||= OpenStruct.new(
-        read_configuration: {
-          "lolsrv" => {
-            "enabled" => true,
-            "server" => "https://lolsrv.com"
-          }
-        }
-      )
-    end
-
-    describe "initalizing" do
-      it "assigns runner and an enabled option" do
-        plugin.runner.must_equal runner
-        plugin.options.must_equal ["enabled"]
-      end
+      {
+        enabled: true,
+        server: "https://lolsrv.com"
+      }
     end
 
     describe "#enabled?" do
-      it "is false by default" do
-        plugin.enabled?.must_equal false
+      it "it is disabled by default" do
+        assert_nil plugin.enabled?
       end
 
       it "is true when configured" do
-        plugin.config = valid_enabled_config
+        plugin.configuration = valid_enabled_config
         plugin.enabled?.must_equal true
       end
     end
@@ -72,7 +52,7 @@ describe Lolcommits::Plugin::Lolsrv do
 
       it "syncs lolcommits" do
         in_repo do
-          plugin.config = valid_enabled_config
+          plugin.configuration = valid_enabled_config
           existing_sha  = "sha123"
 
           stub_request(:get, "https://lolsrv.com/lols").
@@ -97,7 +77,7 @@ describe Lolcommits::Plugin::Lolsrv do
 
       it "shows error and aborts on failed lols endpoint" do
         in_repo do
-          plugin.config = valid_enabled_config
+          plugin.configuration = valid_enabled_config
           stub_request(:get, "https://lolsrv.com/lols").to_return(status: 404)
 
           output = fake_io_capture do
@@ -111,15 +91,6 @@ describe Lolcommits::Plugin::Lolsrv do
     end
 
     describe "configuration" do
-      it "returns false when not configured" do
-        plugin.configured?.must_equal false
-      end
-
-      it "returns true when configured" do
-        plugin.config = valid_enabled_config
-        plugin.configured?.must_equal true
-      end
-
       it "allows plugin options to be configured" do
         # enabled and server option
         inputs = ["true", "https://my-lolsrv.com"]
@@ -130,21 +101,19 @@ describe Lolcommits::Plugin::Lolsrv do
         end
 
         configured_plugin_options.must_equal({
-          "enabled" => true,
-          "server" => "https://my-lolsrv.com"
+          enabled: true,
+          server: "https://my-lolsrv.com"
         })
       end
 
       describe "#valid_configuration?" do
         it "returns false for an invalid configuration" do
-          plugin.config = OpenStruct.new(read_configuration: {
-            "lolsrv" => { "server" => "gibberish" }
-          })
+          plugin.configuration = { server: "gibberish" }
           plugin.valid_configuration?.must_equal false
         end
 
         it "returns true with a valid configuration" do
-          plugin.config = valid_enabled_config
+          plugin.configuration = valid_enabled_config
           plugin.valid_configuration?.must_equal true
         end
       end

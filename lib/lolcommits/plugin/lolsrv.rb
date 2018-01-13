@@ -6,15 +6,6 @@ module Lolcommits
     class Lolsrv < Base
 
       ##
-      # Returns the name of the plugin. Identifies the plugin to lolcommits.
-      #
-      # @return [String] the plugin name
-      #
-      def self.name
-        'lolsrv'
-      end
-
-      ##
       # Returns position(s) of when this plugin should run during the capture
       # process. Sync/uploading happens when a new capture is ready.
       #
@@ -33,7 +24,7 @@ module Lolcommits
       # configured
       #
       def valid_configuration?
-        !!(configuration['server'] =~ /^http(s)?:\/\//)
+        !!(configuration[:server] =~ /^http(s)?:\/\//)
       end
 
       ##
@@ -43,9 +34,9 @@ module Lolcommits
       #
       def configure_options!
         options = super
-        if options['enabled']
+        if options[:enabled]
           print "server: "
-          options.merge!('server' => parse_user_input(gets.strip))
+          options.merge!(server: parse_user_input(gets.strip))
           puts '---------------------------------------------------------------'
           puts '  Lolsrv - Sync lolcommits to a remote server'
           puts ''
@@ -177,7 +168,7 @@ module Lolcommits
       # @return [String] `server` config option + '/uplol'
       #
       def upload_endpoint
-        configuration['server'] + '/uplol'
+        configuration[:server] + '/uplol'
       end
 
       ##
@@ -189,7 +180,7 @@ module Lolcommits
       # @return [String] `server` config option + '/lols'
       #
       def lols_endpoint
-        configuration['server'] + '/lols'
+        configuration[:server] + '/lols'
       end
     end
   end
