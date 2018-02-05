@@ -34,7 +34,7 @@ describe Lolcommits::Plugin::Lolsrv do
 
     describe "#enabled?" do
       it "it is disabled by default" do
-        assert_nil plugin.enabled?
+        plugin.enabled?.must_equal false
       end
 
       it "is true when configured" do
