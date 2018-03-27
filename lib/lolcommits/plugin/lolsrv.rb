@@ -6,16 +6,6 @@ module Lolcommits
     class Lolsrv < Base
 
       ##
-      # Returns position(s) of when this plugin should run during the capture
-      # process. Sync/uploading happens when a new capture is ready.
-      #
-      # @return [Array] the position(s) (:capture_ready)
-      #
-      def self.runner_order
-        [:capture_ready]
-      end
-
-      ##
       # Returns true/false indicating if the plugin has been correctly
       # configured. The `server` option must be set with a URL beginning with
       # http(s)://
