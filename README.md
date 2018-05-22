@@ -1,7 +1,7 @@
 # Lolcommits Lolsrv
 
-[![Gem Version](https://img.shields.io/gem/v/lolcommits-lolsrv.svg?style=flat)](http://rubygems.org/gems/lolcommits-lolsrv)
-[![Travis Build Status](https://travis-ci.org/lolcommits/lolcommits-lolsrv.svg?branch=master)](https://travis-ci.org/lolcommits/lolcommits-lolsrv)
+[![Gem](https://img.shields.io/gem/v/lolcommits-lolsrv.svg?style=flat)](http://rubygems.org/gems/lolcommits-lolsrv)
+[![Travis](https://travis-ci.org/lolcommits/lolcommits-lolsrv.svg?branch=master)](https://travis-ci.org/lolcommits/lolcommits-lolsrv)
 [![Depfu](https://img.shields.io/depfu/lolcommits/lolcommits-lolsrv.svg?style=flat)](https://depfu.com/github/lolcommits/lolcommits-lolsrv)
 [![Maintainability](https://img.shields.io/codeclimate/maintainability/lolcommits/lolcommits-lolsrv.svg)](https://codeclimate.com/github/lolcommits/lolcommits-lolsrv/maintainability)
 [![Test Coverage](https://img.shields.io/codeclimate/c/lolcommits/lolcommits-lolsrv.svg)](https://codeclimate.com/github/lolcommits/lolcommits-lolsrv/test_coverage)
