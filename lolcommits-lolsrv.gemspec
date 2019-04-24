@@ -1,23 +1,21 @@
-# coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'lolcommits/lolsrv/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "lolcommits-lolsrv"
-  spec.version       = Lolcommits::Lolsrv::VERSION
-  spec.authors       = ["Matthew Hutchinson"]
-  spec.email         = ["matt@hiddenloop.com"]
-  spec.summary       = %q{Sync lolcommits to a remote server}
+  spec.name     = "lolcommits-lolsrv"
+  spec.version  = Lolcommits::Lolsrv::VERSION
+  spec.authors  = ["Matthew Hutchinson"]
+  spec.email    = ["matt@hiddenloop.com"]
+  spec.summary  = %q{Sync lolcommits to a remote server}
+  spec.homepage = "https://github.com/lolcommits/lolcommits-lolsrv"
+  spec.license  = "LGPL-3"
 
-  spec.description = <<-EOF
+  spec.description = <<-DESC
   Sync lolcommits to a remote server. After enabling, your next lolcommit will
   be uploaded, along with all existing lolcommits images that you've already
   captured. Each lolcommit is then sync'd after capturing.
-  EOF
-
-  spec.homepage      = "https://github.com/lolcommits/lolcommits-lolsrv"
-  spec.license       = "LGPL-3"
+  DESC
 
   spec.metadata = {
     "homepage_uri"    => "https://github.com/lolcommits/lolcommits-lolsrv",
