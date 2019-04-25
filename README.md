@@ -1,7 +1,7 @@
 # Lolcommits Lolsrv
 
 [![Gem](https://img.shields.io/gem/v/lolcommits-lolsrv.svg?style=flat)](http://rubygems.org/gems/lolcommits-lolsrv)
-[![Travis](https://travis-ci.org/lolcommits/lolcommits-lolsrv.svg?branch=master)](https://travis-ci.org/lolcommits/lolcommits-lolsrv)
+[![Travis](https://img.shields.io/travis/com/lolcommits/lolcommits-lolsrv/master.svg?style=flat)](https://travis-ci.com/lolcommits/lolcommits-lolsrv)
 [![Depfu](https://img.shields.io/depfu/lolcommits/lolcommits-lolsrv.svg?style=flat)](https://depfu.com/github/lolcommits/lolcommits-lolsrv)
 [![Maintainability](https://api.codeclimate.com/v1/badges/309c4d765a49dddebbc9/maintainability)](https://codeclimate.com/github/lolcommits/lolcommits-lolsrv/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/309c4d765a49dddebbc9/test_coverage)](https://codeclimate.com/github/lolcommits/lolcommits-lolsrv/test_coverage)
@@ -93,7 +93,7 @@ GitHub.
 
 When submitting pull requests, remember to add tests covering any new behaviour,
 and ensure all tests are passing on [Travis
-CI](https://travis-ci.org/lolcommits/lolcommits-lolsrv). Read the
+CI](https://travis-ci.com/lolcommits/lolcommits-lolsrv). Read the
 [contributing
 guidelines](https://github.com/lolcommits/lolcommits-lolsrv/blob/master/CONTRIBUTING.md)
 for more details.
@@ -111,7 +111,7 @@ The gem is available as open source under the terms of
 
 ## Links
 
-* [Travis CI](https://travis-ci.org/lolcommits/lolcommits-lolsrv)
+* [Travis CI](https://travis-ci.com/lolcommits/lolcommits-lolsrv)
 * [Code Climate](https://codeclimate.com/github/lolcommits/lolcommits-lolsrv)
 * [Test Coverage](https://codeclimate.com/github/lolcommits/lolcommits-lolsrv/coverage)
 * [RDoc](http://rdoc.info/projects/lolcommits/lolcommits-lolsrv)
