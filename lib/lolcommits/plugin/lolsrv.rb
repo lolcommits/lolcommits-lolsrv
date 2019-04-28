@@ -36,7 +36,7 @@ module Lolcommits
           puts ''
           puts '    `lol`  - captured lolcommit image file'
           puts '    `url`  - remote repository URL (with commit SHA appended)'
-          puts '    `repo` - repository name e.g. mroth/lolcommits'
+          puts '    `repo` - repository name e.g. lolcommits/lolcommits'
           puts '    `date` - UTC date time for the commit (ISO8601)'
           puts '    `sha`  - commit SHA'
           puts ''
@@ -138,7 +138,7 @@ module Lolcommits
       #
       # `lol`  - captured lolcommit image file
       # `url`  - remote repository URL (with commit SHA appended)
-      # `repo` - repository name e.g. mroth/lolcommits
+      # `repo` - repository name e.g. lolcommits/lolcommits
       # `date` - UTC date time for the commit (ISO8601)
       # `sha`  - commit SHA
       #

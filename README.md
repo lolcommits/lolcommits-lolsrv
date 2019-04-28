@@ -29,7 +29,7 @@ The following upload params are `multipart/form-data` encoded:
 
 * `lol`  - captured lolcommit image file
 * `url`  - remote repository URL (with commit SHA appended)
-* `repo` - repository name e.g. mroth/lolcommits
+* `repo` - repository name e.g. lolcommits/lolcommits
 * `date` - UTC date time for the commit (ISO8601)
 * `sha`  - commit SHA
 
