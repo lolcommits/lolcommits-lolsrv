@@ -12,10 +12,8 @@ describe Lolcommits::Plugin::Lolsrv do
     def runner
       # a simple lolcommits runner with an empty configuration Hash
       @runner ||= Lolcommits::Runner.new(
-        main_image: Tempfile.new('main_image.jpg'),
-        config: OpenStruct.new(
-          loldir: File.expand_path("#{__dir__}../../../images")
-        )
+        lolcommit_path: Tempfile.new('lolcommit.jpg'),
+        config: TestConfiguration.new(OpenStruct.new)
       )
     end
 
@@ -56,7 +54,8 @@ describe Lolcommits::Plugin::Lolsrv do
           stub_request(:get, "https://lolsrv.com/lols").
             to_return(status: 200, body: [{ sha: existing_sha }].to_json)
 
-          stub_request(:post, "https://lolsrv.com/uplol").to_return(status: 200)
+          stub_request(:post, "https://lolsrv.com/uplol").
+            to_return(status: 200)
 
           output = fake_io_capture do
             plugin.run_capture_ready(do_fork: false)
@@ -116,5 +115,11 @@ describe Lolcommits::Plugin::Lolsrv do
         end
       end
     end
+  end
+end
+
+class TestConfiguration < Lolcommits::Configuration
+  def loldir
+    @loldir ||= File.expand_path("#{__dir__}../../../images")
   end
 end

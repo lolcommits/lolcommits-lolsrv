@@ -9,8 +9,8 @@ module Lolcommits
 
       ##
       # Returns true/false indicating if the plugin has been correctly
-      # configured. The `server` option must be set with a URL beginning with
-      # http(s)://
+      # configured. The `server` option must be set with a URL beginning
+      # with http(s)://
       #
       # @return [Boolean] true/false indicating if plugin is correctly
       # configured
@@ -34,7 +34,7 @@ module Lolcommits
           puts ''
           puts '  Handle POST /uplol with these request params'
           puts ''
-          puts '    `lol`  - captured lolcommit image file'
+          puts '    `lol`  - captured lolcommit file'
           puts '    `url`  - remote repository URL (with commit SHA appended)'
           puts '    `repo` - repository name e.g. lolcommits/lolcommits'
           puts '    `date` - UTC date time for the commit (ISO8601)'
@@ -53,8 +53,7 @@ module Lolcommits
       ##
       #
       # Post-capture hook, runs after lolcommits captures a snapshot.
-      #
-      # Syncs lolcommit images to the remote server (forked and detached)
+      # Syncs lolcommits to the remote server (forked and detached)
       #
       # @return [Integer] forked process id
       #
@@ -72,12 +71,12 @@ module Lolcommits
 
       ##
       #
-      # Syncs lolcommmit images to the remote server
+      # Syncs lolcommmits to the remote server
       #
-      # Fetches from /lols and iterates over shas in the JSON array. For each
-      # image found in the local loldir folder, check if it has already been
-      # uploaded. If not, upload the image with a POST request and
-      # upload_params.
+      # Fetches from /lols and iterates over shas in the JSON array. For
+      # each file found in the local loldir folder, check if it has
+      # already been uploaded. If not, upload the file with a POST
+      # request and upload_params.
       #
       # Upload requests that fail abort the sync.
       #
@@ -85,11 +84,13 @@ module Lolcommits
         print "Syncing lols ... "
         raise 'failed fetching existing lols' unless existing_shas
 
-        Dir[runner.config.loldir + '/*.{jpg,gif}'].each do |image|
-          sha = File.basename(image, '.*')
-          unless existing_shas.include?(sha) || sha == 'tmp_snapshot'
-            response = upload(image, sha)
-            raise "failed uploading #{image}" if response.nil?
+        # puts runner.config.loldir
+
+        Dir[runner.config.loldir + '/*.{jpg,mp4,gif}'].each do |lolcommit|
+          sha = File.basename(lolcommit, '.*')
+          unless existing_shas.include?(sha)
+            response = upload(lolcommit, sha)
+            raise "failed uploading #{lolcommit}" if response.nil?
           end
         end
 
@@ -101,8 +102,9 @@ module Lolcommits
 
       ##
       #
-      # Fetch and parse JSON response from `server/lols`, returning an array of
-      # commit SHA's. Logs and returns nil on NET/HTTP and JSON parsing errors.
+      # Fetch and parse JSON response from `server/lols`, returning an
+      # array of commit SHA's. Logs and returns nil on NET/HTTP and JSON
+      # parsing errors.
       #
       # @return [Array] containing commit SHA's
       # @return [Nil] if an error occurred
@@ -119,13 +121,13 @@ module Lolcommits
 
       ##
       #
-      # Upload the lolcommit image to `server/uplol` with commit params. Logs
-      # and returns nil on NET/HTTP errors.
+      # Upload the lolcommit file to `server/uplol` with commit params.
+      # Logs and returns nil on NET/HTTP errors.
       #
       # @return [RestClient::Response] response object from POST request
       #
-      def upload(image, sha)
-        RestClient.post(upload_endpoint, upload_params_for(image, sha))
+      def upload(file, sha)
+        RestClient.post(upload_endpoint, upload_params_for(file, sha))
       rescue SocketError, RestClient::RequestFailed => e
         log_error(e, "ERROR: Upload of lol #{sha} to #{upload_endpoint} FAILED #{e.class} - #{e.message}")
         nil
@@ -133,10 +135,10 @@ module Lolcommits
 
       ##
       #
-      # Hash of params to send with lolcommit upload. Built from repositiory and
-      # commit info.
+      # Hash of params to send with lolcommit upload. Built from
+      # repositiory and commit info.
       #
-      # `lol`  - captured lolcommit image file
+      # `lol`  - captured lolcommit file
       # `url`  - remote repository URL (with commit SHA appended)
       # `repo` - repository name e.g. lolcommits/lolcommits
       # `date` - UTC date time for the commit (ISO8601)
@@ -144,9 +146,9 @@ module Lolcommits
       #
       # @return [Hash]
       #
-      def upload_params_for(image, sha)
+      def upload_params_for(file, sha)
         params = {
-          lol: File.new(image),
+          lol: File.new(file),
           repo: runner.vcs_info.repo,
           date: runner.vcs_info.commit_date.iso8601,
           sha: sha
@@ -171,9 +173,9 @@ module Lolcommits
 
       ##
       #
-      # Endpoint requested for GET-ing lolcommits. It must return a JSON array
-      # of all lols already uploaded, the commit `sha` is the only required JSON
-      # attribute.
+      # Endpoint requested for GET-ing lolcommits. It must return a JSON
+      # array of all lols already uploaded, the commit `sha` is the only
+      # required JSON attribute.
       #
       # @return [String] `server` config option + '/lols'
       #
