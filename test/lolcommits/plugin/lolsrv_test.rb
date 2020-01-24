@@ -30,12 +30,12 @@ describe Lolcommits::Plugin::Lolsrv do
 
     describe "#enabled?" do
       it "it is disabled by default" do
-        plugin.enabled?.must_equal false
+        _(plugin.enabled?).must_equal false
       end
 
       it "is true when configured" do
         plugin.configuration = valid_enabled_config
-        plugin.enabled?.must_equal true
+        _(plugin.enabled?).must_equal true
       end
     end
 
@@ -65,9 +65,9 @@ describe Lolcommits::Plugin::Lolsrv do
           assert_requested :get, "https://lolsrv.com/lols", times: 1
           assert_requested :post, "https://lolsrv.com/uplol", times: 1,
             headers: {'Content-Type' => /multipart\/form-data/ } do |req|
-            req.body.must_match "sha456"
-            req.body.must_match "plugin-test-repo"
-            req.body.must_match "name=\"lol\"; filename="
+            _(req.body).must_match "sha456"
+            _(req.body).must_match "plugin-test-repo"
+            _(req.body).must_match "name=\"lol\"; filename="
           end
         end
       end
@@ -97,7 +97,7 @@ describe Lolcommits::Plugin::Lolsrv do
           configured_plugin_options = plugin.configure_options!
         end
 
-        configured_plugin_options.must_equal({
+        _(configured_plugin_options).must_equal({
           enabled: true,
           server: "https://my-lolsrv.com"
         })
@@ -106,12 +106,12 @@ describe Lolcommits::Plugin::Lolsrv do
       describe "#valid_configuration?" do
         it "returns false for an invalid configuration" do
           plugin.configuration = { server: "gibberish" }
-          plugin.valid_configuration?.must_equal false
+          _(plugin.valid_configuration?).must_equal false
         end
 
         it "returns true with a valid configuration" do
           plugin.configuration = valid_enabled_config
-          plugin.valid_configuration?.must_equal true
+          _(plugin.valid_configuration?).must_equal true
         end
       end
     end
