@@ -12,6 +12,7 @@ require 'lolcommits/test_helpers/fake_io'
 # plugin gem test libs
 require 'lolcommits/lolsrv'
 require 'minitest/autorun'
+require 'ostruct'
 
 # swallow all debug output during test runs
 def debug(msg); end
