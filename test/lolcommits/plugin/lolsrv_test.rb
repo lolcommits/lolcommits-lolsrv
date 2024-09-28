@@ -12,7 +12,6 @@ describe Lolcommits::Plugin::Lolsrv do
     def runner
       # a simple lolcommits runner with an empty configuration Hash
       @runner ||= Lolcommits::Runner.new(
-        lolcommit_path: Tempfile.new('lolcommit.jpg'),
         config: TestConfiguration.new(OpenStruct.new)
       )
     end

@@ -18,14 +18,4 @@ Rake::TestTask.new(:test) do |t|
   t.test_files = FileList["test/**/*_test.rb"]
 end
 
-# run tests with code coverage (default)
-namespace :test do
-  desc "Run all tests and features and generate a code coverage report"
-  task :coverage do
-    ENV['COVERAGE'] = 'true'
-    Rake::Task['test'].execute
-  end
-end
-
-
-task :default => ['test:coverage']
+task :default => ['test']
