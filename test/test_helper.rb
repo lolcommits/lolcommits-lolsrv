@@ -11,6 +11,7 @@ require "lolcommits/test_helpers/fake_io"
 
 # plugin gem test libs
 require "lolcommits/lolsrv"
+require "webmock/minitest"
 require "minitest/autorun"
 require "ostruct"
 

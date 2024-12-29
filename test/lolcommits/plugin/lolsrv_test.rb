@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "test_helper"
-require "webmock/minitest"
 
 describe Lolcommits::Plugin::Lolsrv do
   include Lolcommits::TestHelpers::GitRepo
