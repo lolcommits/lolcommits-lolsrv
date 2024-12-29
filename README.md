@@ -108,7 +108,7 @@ The gem is available as open source under the terms of
 ## Links
 
 * [CI](https://github.com/lolcommits/lolcommits-lolsrv/actions/workflows/ci.yml)
-* [RDoc](http://rdoc.info/projects/lolcommits/lolcommits-lolsrv)
+* [RDoc](https://rubydoc.info/gems/lolcommits-lolsrv)
 * [Issues](http://github.com/lolcommits/lolcommits-lolsrv/issues)
 * [Report a bug](http://github.com/lolcommits/lolcommits-lolsrv/issues/new)
 * [Gem](http://rubygems.org/gems/lolcommits-lolsrv)
