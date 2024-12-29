@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 require "test_helper"
-require 'webmock/minitest'
+require "webmock/minitest"
 
 describe Lolcommits::Plugin::Lolsrv do
-
   include Lolcommits::TestHelpers::GitRepo
   include Lolcommits::TestHelpers::FakeIO
 
@@ -51,7 +50,7 @@ describe Lolcommits::Plugin::Lolsrv do
           existing_sha  = "sha123"
 
           stub_request(:get, "https://lolsrv.com/lols").
-            to_return(status: 200, body: [{ sha: existing_sha }].to_json)
+            to_return(status: 200, body: [ { sha: existing_sha } ].to_json)
 
           stub_request(:post, "https://lolsrv.com/uplol").
             to_return(status: 200)
@@ -63,7 +62,7 @@ describe Lolcommits::Plugin::Lolsrv do
           assert_equal output, "Syncing lols ... done!\n"
           assert_requested :get, "https://lolsrv.com/lols", times: 1
           assert_requested :post, "https://lolsrv.com/uplol", times: 1,
-            headers: {'Content-Type' => /multipart\/form-data/ } do |req|
+            headers: { "Content-Type" => /multipart\/form-data/ } do |req|
             _(req.body).must_match "sha456"
             _(req.body).must_match "plugin-test-repo"
             _(req.body).must_match "name=\"lol\"; filename="
@@ -89,7 +88,7 @@ describe Lolcommits::Plugin::Lolsrv do
     describe "configuration" do
       it "allows plugin options to be configured" do
         # enabled and server option
-        inputs = ["true", "https://my-lolsrv.com"]
+        inputs = [ "true", "https://my-lolsrv.com" ]
         configured_plugin_options = {}
 
         fake_io_capture(inputs: inputs) do

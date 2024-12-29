@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
-require 'rest_client'
-require 'lolcommits/plugin/base'
+require "rest_client"
+require "lolcommits/plugin/base"
 
 module Lolcommits
   module Plugin
     class Lolsrv < Base
-
       ##
       # Returns true/false indicating if the plugin has been correctly
       # configured. The `server` option must be set with a URL beginning
@@ -29,23 +28,23 @@ module Lolcommits
         if options[:enabled]
           print "server: "
           options.merge!(server: parse_user_input(gets.strip))
-          puts '---------------------------------------------------------------'
-          puts '  Lolsrv - Sync lolcommits to a remote server'
-          puts ''
-          puts '  Handle POST /uplol with these request params'
-          puts ''
-          puts '    `lol`  - captured lolcommit file'
-          puts '    `url`  - remote repository URL (with commit SHA appended)'
-          puts '    `repo` - repository name e.g. lolcommits/lolcommits'
-          puts '    `date` - UTC date time for the commit (ISO8601)'
-          puts '    `sha`  - commit SHA'
-          puts ''
-          puts '  Handle GET /lols with JSON response'
-          puts ''
-          puts '  * Must return a JSON array of all lols already uploaded.'
-          puts '    The commit `sha` is the only required JSON attribute.'
-          puts ''
-          puts '---------------------------------------------------------------'
+          puts "---------------------------------------------------------------"
+          puts "  Lolsrv - Sync lolcommits to a remote server"
+          puts ""
+          puts "  Handle POST /uplol with these request params"
+          puts ""
+          puts "    `lol`  - captured lolcommit file"
+          puts "    `url`  - remote repository URL (with commit SHA appended)"
+          puts "    `repo` - repository name e.g. lolcommits/lolcommits"
+          puts "    `date` - UTC date time for the commit (ISO8601)"
+          puts "    `sha`  - commit SHA"
+          puts ""
+          puts "  Handle GET /lols with JSON response"
+          puts ""
+          puts "  * Must return a JSON array of all lols already uploaded."
+          puts "    The commit `sha` is the only required JSON attribute."
+          puts ""
+          puts "---------------------------------------------------------------"
         end
         options
       end
@@ -82,12 +81,12 @@ module Lolcommits
       #
       def sync
         print "Syncing lols ... "
-        raise 'failed fetching existing lols' unless existing_shas
+        raise "failed fetching existing lols" unless existing_shas
 
         # puts runner.config.loldir
 
-        Dir[runner.config.loldir + '/*.{jpg,mp4,gif}'].each do |lolcommit|
-          sha = File.basename(lolcommit, '.*')
+        Dir[runner.config.loldir + "/*.{jpg,mp4,gif}"].each do |lolcommit|
+          sha = File.basename(lolcommit, ".*")
           unless existing_shas.include?(sha)
             response = upload(lolcommit, sha)
             raise "failed uploading #{lolcommit}" if response.nil?
@@ -112,7 +111,7 @@ module Lolcommits
       def existing_shas
         @existing_shas ||= begin
           lols = JSON.parse(RestClient.get(lols_endpoint))
-          lols.map { |lol| lol['sha'] }
+          lols.map { |lol| lol["sha"] }
         rescue JSON::ParserError, SocketError, RestClient::RequestFailed => e
           log_error(e, "ERROR: existing lols could not be retrieved #{e.class} - #{e.message}")
           nil
@@ -168,7 +167,7 @@ module Lolcommits
       # @return [String] `server` config option + '/uplol'
       #
       def upload_endpoint
-        configuration[:server] + '/uplol'
+        configuration[:server] + "/uplol"
       end
 
       ##
@@ -180,7 +179,7 @@ module Lolcommits
       # @return [String] `server` config option + '/lols'
       #
       def lols_endpoint
-        configuration[:server] + '/lols'
+        configuration[:server] + "/lols"
       end
     end
   end
